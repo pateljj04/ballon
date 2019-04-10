@@ -39,7 +39,7 @@ def show_message_on_sensehat():
         return message
 
 show_message_on_sensehat()
-        
+
 humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
 temperature = temperature * 9/5.0 + 32
 
@@ -49,13 +49,14 @@ csvresult.close
 
 Count = 1
 while(Count < 99999):
-    import time
-    import datetime
-    MyDateTime = datetime.datetime.now()
-    Date = MyDateTime.strftime("%m/%d/%y")
-    Time = MyDateTime.strftime("%H:%M:%S")
-    humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
-    temperature = temperature * 9/5.0 + 32
+# I think all of these are already defined up on top, no need to call them again!
+#    import time
+#    import datetime
+#    MyDateTime = datetime.datetime.now()
+#    Date = MyDateTime.strftime("%m/%d/%y")
+#    Time = MyDateTime.strftime("%H:%M:%S")
+#    humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
+#    temperature = temperature * 9/5.0 + 32
 
     pressure = sense.get_pressure()
     pressure = round(pressure, 2)
