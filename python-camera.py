@@ -1,38 +1,45 @@
 #!/usr/bin/python
 
-import sys
-import time
-import datetime#!/usr/bin/python
-
+#Moved all the imports to the top!
 import sys
 import time
 import datetime
-MyDateTime = datetime.datetime.now()
-
 from sense_hat import SenseHat
-sense = SenseHat()
-sense.clear()
-
 import Adafruit_DHT
+from picamera import PiCamera
+
+# Instead of doing this you can do import time and then use time.sleep when you want use sleep in your code
+from time import sleep
+
+# Time formatting
+MyDateTime = datetime.datetime.now()
 Date = MyDateTime.strftime("%m/%d/%y")
 Time = MyDateTime.strftime("%H:%M:%S")
 
-from picamera import PiCamera
-from time import sleep
+# SenseHat Initialization
+sense = SenseHat()
+sense.clear()
+
+# Camera Initialization
 camera = PiCamera()
 
+# Sensor Initialization
 sensor_args = {'2302': Adafruit_DHT.AM2302 }
 
-if len(sys.argv) == 3 and sys.argv[1] in sensor_args:
-    sensor = sensor_args[sys.argv[1]]
-    pin = sys.argv[2]
-    sense.show_message("READY!", text_colour=(76, 187, 23))
-else:
-    print('usage: sudo ./Adafruit_DHT.py [11|22|2302] GPIOpin#')
-    print('example: sudo ./Adafruit_DHT.py 2302 4 - Read from an AM2302 connected to GPIO #4')
-    sense.show_message("ERROR!", text_colour=(255, 0, 0))
-    sys.exit(1)
+def show_message_on_sensehat():
+    if len(sys.argv) == 3 and sys.argv[1] in sensor_args:
+        sensor = sensor_args[sys.argv[1]]
+        pin = sys.argv[2]
+        message = sense.show_message("READY!", text_colour=(76, 187, 23))
+        return message
+    else:
+        print('usage: sudo ./Adafruit_DHT.py [11|22|2302] GPIOpin#')
+        print('example: sudo ./Adafruit_DHT.py 2302 4 - Read from an AM2302 connected to GPIO #4')
+        message =  sense.show_message("ERROR!", text_colour=(255, 0, 0))
+        return message
 
+show_message_on_sensehat()
+        
 humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
 temperature = temperature * 9/5.0 + 32
 
